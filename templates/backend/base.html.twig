@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Seeval{% endblock %}</title>
+    <script src="{{ asset('backend/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('backend/vendors/jquery.doubleScroll/jquery.doubleScroll.js') }}"></script>
+    {% block css %}
+        <link href="{{ asset('backend/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('backend/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('backend/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
+        <link href="{{ asset('backend/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
+        {% block css_additional %}{% endblock %}
+        <!-- Custom Theme Style -->
+        <link href="{{ asset('backend/css/custom.min.css') }}" rel="stylesheet">
+        <style>
+            #toTopBtn {
+                position: fixed;
+                bottom: 26px;
+                right: 39px;
+                z-index: 98;
+                padding: 21px;
+                background-color: hsla(210, 33%, 25%, .8)
+            }
+
+            .js .cd-top--fade-out {
+                opacity: .5
+            }
+
+            .js .cd-top--is-visible {
+                visibility: visible;
+                opacity: 1
+            }
+
+            .js .cd-top {
+                visibility: hidden;
+                opacity: 0;
+                transition: opacity .3s, visibility .3s, background-color .3s
+            }
+
+            .cd-top {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                display: inline-block;
+                height: 40px;
+                width: 40px;;
+                box-shadow: 0 0 10px rgba(0, 0, 0, .05) !important;
+                background: url({{ asset('images/cd-top-arrow.svg') }}) no-repeat center 50%;
+                background-color: hsla(210, 33%, 25%, .8);
+            }
+
+            .height {
+                height: 3000px
+            }
+        </style>
+    {% endblock %}
+</head>
+
+<body {% block body_class %}class="nav-md"{% endblock %} >
+<a href="#" id="toTopBtn" class="cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true" style="display: none;"></a>
+{% block body %}
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="hidden-small">
+                        <a href="#"><img style="width: 230px;" src="{{ asset('backend/images/logos/logo.png') }}" alt="Wayes Logo"></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                        {% include 'backend/_profile.html.twig' %}
+                    </div>
+                    <!-- /menu profile quick info -->
+
+                    <br />
+
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        {% include 'backend/_sidebar.html.twig' %}
+                    </div>
+                    <!-- /sidebar menu -->
+
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                {% include "backend/_topnav.html.twig" %}
+            </div>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main" style="background-color: #F7F7F7;">
+                <div class="">
+
+                    {% block page_title %}{% endblock %}
+
+                    {% include "backend/_flash_messages.html.twig" %}
+
+                    <div class="clearfix"></div>
+
+                    <div class="row" style="display: block;">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+                <br />
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <footer>
+                {% include "backend/_footer.html.twig" %}
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+<!-- jQuery -->
+<script src="{{ asset('backend/vendors/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('backend/vendors/iCheck/icheck.js') }}"></script>
+<script src="{{ asset('backend/vendors/fastclick/lib/fastclick.js') }}"></script>
+<script src="{{ asset('backend/vendors/Chart.js/dist/Chart.min.js') }}"></script>
+<script src="{{ asset('backend/vendors/gauge.js/dist/gauge.min.js') }}"></script>
+<script src="{{ asset('backend/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js') }}"></script>
+<script src="{{ asset('backend/vendors/nprogress/nprogress.js') }}"></script>
+<script src="{{ asset('backend/js/custom.js') }}"></script>
+{#<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+{#<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>#}
+
+{% block javascript_additional %}{% endblock %}
+<!-- Custom Theme Scripts -->
+
+{% endblock %}
+<script>
+    $(document).ready(function() {
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 20) {
+                $('#toTopBtn').fadeIn();
+            } else {
+                $('#toTopBtn').fadeOut();
+            }
+        });
+
+        $('#toTopBtn').click(function() {
+            $("html, body").animate({
+                scrollTop: 0
+            }, 1000);
+            return false;
+        });
+    });
+</script>
+</body>
+</html>
+
+

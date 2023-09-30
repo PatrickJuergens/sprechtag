@@ -1,0 +1,15 @@
+{#{% if app.user.currentClient or app.user.currentUnit  %}#}
+{#    <div class=" text-center">#}
+{#        {% set isSelfAdministered = false %}#}
+{#        {% if app.user.unitBased %}#}
+{#            <a style="color: #E7E7E7; font-size: 14px; font-weight: 500;" href="{{ path('client_info') }}">{{ app.user.currentUnit }}</a>#}
+{#            {% set isSelfAdministered = app.user.currentUnit.isSelfAdministered %}#}
+{#        {% else %}#}
+{#            <a style="color: #E7E7E7; font-size: 14px; font-weight: 500;" href="{{ path('client_info') }}">{{ app.user.currentClient }}</a>#}
+{#            {% set isSelfAdministered = app.user.currentClient.isSelfAdministered %}#}
+{#        {% endif %}#}
+{#        {% if isSelfAdministered %}#}
+{#            <br><i>(in Eigenverwaltung)</i>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#{% endif %}#}

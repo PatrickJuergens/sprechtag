@@ -1,0 +1,24 @@
+{% block sidebar %}
+
+<div class="menu_section">
+    <ul class="nav side-menu">
+        <li><a><i class="fa fa-edit"></i> Lehrer <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                <li><a href="{{ path('app_image_index') }}">Übersicht</a></li>
+                <li><a href="{{ path('app_image_index') }}">Neues Modul anlegen</a></li>
+            </ul>
+        </li>
+        <li><a><i class="fa fa-image"></i> Klassen <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                <li><a href="{{ path('app_image_index') }}">Übersicht</a></li>
+                <li><a href="{{ path('app_image_new') }}">Neues Bild anlegen</a></li>
+            </ul>
+        </li>
+        <li><a><i class="fa fa-bar-chart"></i> Zeitfenster <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                <li><a href="{{ path('app_image_index') }}">Auswertungen anzeigen</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+{% endblock %}

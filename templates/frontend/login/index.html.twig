@@ -1,0 +1,28 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block content %}
+    <form action="{{ path('app_login') }}" method="post">
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control" />
+            <label class="form-label" for="username">Benutzername</label>
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+            <input type="password" id="password" name="_password" class="form-control" />
+            <label class="form-label" for="password">Password</label>
+        </div>
+
+
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Login</button>
+
+
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    </form>
+{% endblock %}
