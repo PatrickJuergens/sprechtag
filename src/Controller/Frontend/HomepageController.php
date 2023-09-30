@@ -8,6 +8,7 @@ use App\Entity\SchoolClass;
 use App\Entity\Teacher;
 use App\Form\AppointmentType;
 use App\Form\ImageType;
+use App\Repository\AppointmentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\SchoolClassRepository;
 use App\Repository\TeacherRepository;
@@ -101,13 +102,26 @@ class HomepageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $appointment = $form->getData();
+            /** @var Appointment $appointment */
+            $appointment->setToken(md5(uniqid(mt_rand(), true)));
             $entityManager->persist($appointment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_confirm_appointment', ['token' => $appointment->getToken()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('frontend/homepage/teacherSelectTimeFrame.html.twig', ['teacher' => $teacher, 'form' => $form]);
+    }
+
+    #[Route('/confirmAppointment/{token}', name: 'app_confirm_appointment', methods: ['GET'])]
+    public function confirm(String $token, AppointmentRepository $repository): Response
+    {
+        $appointment = $repository->findOneBy(['token' => $token]);
+        if ($appointment === null) {
+            throw new NotFoundHttpException('Parameter nicht gefunden');
+        }
+
+        return $this->render('frontend/homepage/confirmAppointment.html.twig', ['appointment' => $appointment]);
     }
 
 }

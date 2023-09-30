@@ -1,0 +1,14 @@
+{% extends 'frontend/base.html.twig' %}
+
+{% block content %}
+    <p class="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">Anmeldung zum Eltern- und Ausbildersprechtag</p>
+
+    <p class="text-center h5 mb-5 mx-1 mx-md-4 mt-4">am Donnerstag, 30.11.2023</p>
+
+
+    <p>Sie wünschen einen Termin mit {{ appointment.teacher.firstName }} {{ appointment.teacher.lastName }} </p>
+
+    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+        <a href="{{ path('app_homepage') }}" class="btn btn-primary btn-lg">Einen zusätzlichen Termin bei einer anderen Lehrkraft vereinbaren!</a>
+    </div>
+{% endblock %}
