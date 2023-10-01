@@ -1,41 +1,50 @@
 {% extends 'frontend/base.html.twig' %}
 
 {% block content %}
-    <p class="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">Anmeldung zum Eltern- und Ausbildersprechtag</p>
+    <p>Sie wünschen einen Termin mit <strong>{{ teacher.firstName }} {{ teacher.lastName }}</strong>, bitte wählen Sie einen freien Termin aus.</p>
 
-    <p class="text-center h5 mb-5 mx-1 mx-md-4 mt-4">am Donnerstag, 30.11.2023</p>
-
-
-        <p>Sie wünschen einen Termin mit {{ teacher.firstName }} {{ teacher.lastName }} </p>
-
-        Bitte wählen Sie einen freien Termin aus.
-
-        <div class="d-flex flex-row align-items-center mb-4">
-            <div class="form-outline flex-fill mb-0">
-
+        {% form_theme form 'bootstrap_5_layout.html.twig' %}
+        {{ form_start(form) }}
+        {{ form_row(form.timeFrame) }}
+        <div class="row">
+            <div class="col-md-6 mb-4">
+            {{ form_row(form.studentFirstName) }}
+            </div>
+            <div class="col-md-6 mb-4">
+            {{ form_row(form.studentLastName) }}
             </div>
         </div>
-        {{ form_start(form) }}
-        {{ form_row(form.studentFirstName) }}
-        {{ form_row(form.studentLastName) }}
-        {{ form_row(form.timeFrame) }}
-        {{ form_row(form.visitorFirstName) }}
-        {{ form_row(form.visitorLastName) }}
-        {{ form_row(form.email) }}
         {{ form_row(form.schoolClass) }}
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                {{ form_row(form.visitorFirstName) }}
+            </div>
+            <div class="col-md-6 mb-4">
+                {{ form_row(form.visitorLastName) }}
+            </div>
+        </div>
+
         {{ form_row(form.captcha) }}
         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
             <button type="submit" class="btn btn-primary btn-lg">Termin verbindlich vereinbaren!</button>
         </div>
-        {{ form_end(form) }}
+
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}
 
 {% block css_additional %}
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css">
     <!-- select2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" integrity="sha256-FdatTf20PQr/rWg+cAKfl6j4/IY3oohFAJ7gVC3M34E=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css">
-
+    <style>
+        .captcha_image {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 10px
+        }
+    </style>
 {% endblock %}
 {% block javascript_additional %}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

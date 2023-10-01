@@ -33,16 +33,18 @@ class AppointmentType extends AbstractType
         $teacher = $options['teacher'];
 
         $builder
-            ->add('studentFirstName', TextType::class, ['label' => 'Vorname der Schülerin, Vorname des Schülers'])
-            ->add('studentLastName', TextType::class, ['label' => 'Nachname der Schülerin, Nachname des Schülers'])
+            ->add('studentFirstName', TextType::class, ['label' => 'Vorname der Schülerin, Vorname des Schülers:'])
+            ->add('studentLastName', TextType::class, ['label' => 'Nachname der Schülerin, Nachname des Schülers:'])
             ->add('timeFrame', EntityType::class, [
                 'class' => TimeFrame::class,
                 'choices' => $this->getFreeTimeFrames($teacher),
                 'choice_label' => 'name',
-                'label' => 'Verfügbare Zeiten'
+                'label' => 'Verfügbare Zeiten:',
+                'required' => true,
+                'placeholder' => 'Bitte eine Zeit auswählen'
             ])
-            ->add('visitorFirstName', TextType::class, ['label' => 'Ihr Vorname'])
-            ->add('visitorLastName', TextType::class, ['label' => 'Ihr Nachname'])
+            ->add('visitorFirstName', TextType::class, ['label' => 'Ihr Vorname:'])
+            ->add('visitorLastName', TextType::class, ['label' => 'Ihr Nachname:'])
             ->add('email', EmailType::class, ['label' => 'Ihre E-Mail-Adresse', 'help'=> 'Die E-Mail-Adresse ist kein Pflichtfeld, sollten Sie eine E-Mail-Adresse angeben, senden wir Ihnen eine Bestätigung des Termins zu.'])
             ->add('schoolClass', EntityType::class, [
                 'class' => SchoolClass::class,
@@ -51,9 +53,11 @@ class AppointmentType extends AbstractType
                         ->orderBy('s.code', 'ASC')
                         ->setParameter('teacher', $teacher);
                 },
-                'label' => 'Wählen die betreffende Schulkasse aus.'
+                'label' => 'Wählen Sie die betreffende Schulkasse aus:'
             ])
-            ->add('captcha', CaptchaType::class, ['label' => 'Bitte geben Sie den Captcha-Code aus dem Bild ein']);
+            ->add('captcha', CaptchaType::class, [
+                'label' => 'Bitte geben Sie den Captcha-Code aus dem Bild ein:'
+            ]);
         ;
     }
 

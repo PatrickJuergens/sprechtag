@@ -12,7 +12,12 @@ use App\Repository\AppointmentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\SchoolClassRepository;
 use App\Repository\TeacherRepository;
+use App\Repository\TimeFrameRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Jsvrcek\ICS\CalendarExport;
+use Jsvrcek\ICS\Model\CalendarEvent;
+use Jsvrcek\ICS\Model\Relationship\Attendee;
+use Jsvrcek\ICS\Utility\Formatter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +43,7 @@ class HomepageController extends AbstractController
             'placeholder' => 'Nachname der Lehrkraft',
             'width' => '100%',
             'language' => 'de',
-            'help' => 'Geben Sie den ersten Buchstaben des Nachnamens der gesuchten Lehrkraft ein und Sie erhalten passende Vorschläge '
+            'help' => 'Geben Sie den ersten Buchstaben des Nachnamens der gesuchten Lehrkraft ein und Sie erhalten passende Vorschläge.'
         ])->getForm();
 
         return $this->render('frontend/homepage/index.html.twig', ['form' => $form->createView() ]);
@@ -83,7 +88,7 @@ class HomepageController extends AbstractController
     }
 
     #[Route('/teacherSelectTimeFrame/', name: 'app_select_time_frame', methods: ['GET', 'POST'])]
-    public function teacherSelectTime(Request $request, TeacherRepository $repository, EntityManagerInterface $entityManager): Response
+    public function teacherSelectTime(Request $request, TeacherRepository $repository, TimeFrameRepository $timeFrameRepository, EntityManagerInterface $entityManager): Response
     {
         $formData = $request->query->all();
         $teacherId = $formData['form']['teacher'] ?? null;
@@ -93,6 +98,11 @@ class HomepageController extends AbstractController
         $teacher = $repository->find($teacherId);
         if ($teacher === null) {
             throw new NotFoundHttpException('Lehrer wurde nicht gefunden');
+        }
+
+        if (count($this->getFreeTimeFrames($teacher,  $timeFrameRepository)) <= 0) {
+            $this->addFlash('warning', "Es sind für die ausgewählte Lehrkraft sind leider keine Termine mehr frei, bitte wenden Sie sich direkt an die Lehrkraft oder kontaktieren Sie die Klassenlehrerin bzw. den Klassenlehrer!");
+            return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
         }
 
         $appointment = new Appointment();
@@ -124,4 +134,41 @@ class HomepageController extends AbstractController
         return $this->render('frontend/homepage/confirmAppointment.html.twig', ['appointment' => $appointment]);
     }
 
+    #[Route('/ical/{token}', name: 'app_ical_appointment', methods: ['GET'])]
+    public function icalAction(string $token, Formatter $formatter, CalendarExport $calendarExport, AppointmentRepository $repository) :Response
+    {
+        $appointment = $repository->findOneBy(['token' => $token]);
+        if ($appointment === null) {
+            throw new NotFoundHttpException('Parameter nicht gefunden');
+        }
+
+        $eventOne = new CalendarEvent();
+        $eventOne->setStart(new \DateTime())
+            ->setSummary('Family reunion')
+            ->setUid('event-uid');
+
+        //add an Attendee
+        $attendee = new Attendee($formatter);
+        $attendee->setValue('moe@example.com')
+            ->setName('Moe Smith');
+        $eventOne->addAttendee($attendee);
+
+
+        $response = new Response($calendarExport->getStream());
+        $response->headers->set('Content-Type', 'text/calendar');
+
+        return $response;
+    }
+
+    private function getFreeTimeFrames(Teacher $teacher, TimeFrameRepository $timeFrameRepository) :array
+    {
+        $return = [];
+        $occupiedTimeFrameIds = $teacher->getOccupiedTimeFrameIds();
+        foreach ($timeFrameRepository->findAll() as $timeFrame) {
+            if (!in_array($timeFrame->getId(), $occupiedTimeFrameIds)) {
+                $return[] = $timeFrame;
+            }
+        }
+        return $return;
+    }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d116be7a82f567dc0bac919281e51bd",
+    "content-hash": "1316248ede6025fe40c2e9fdee0c078b",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1986,6 +1986,108 @@
                 "source": "https://github.com/Gregwar/CaptchaBundle/tree/v2.2.0"
             },
             "time": "2022-01-11T08:28:06+00:00"
+        },
+        {
+            "name": "jsvrcek/ics",
+            "version": "0.8.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jasvrcek/ICS.git",
+                "reference": "11a24ac95648d720a1370c5bb20988b1739a63a4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jasvrcek/ICS/zipball/11a24ac95648d720a1370c5bb20988b1739a63a4",
+                "reference": "11a24ac95648d720a1370c5bb20988b1739a63a4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.5 || >=6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jsvrcek\\ICS\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Svrcek",
+                    "homepage": "https://github.com/jasvrcek"
+                }
+            ],
+            "description": "abstraction layer for creating multi-byte safe RFC 5545 compliant .ics files",
+            "homepage": "https://github.com/jasvrcek/ICS",
+            "keywords": [
+                ".ics",
+                "RFC 5545",
+                "calendar",
+                "export",
+                "ical",
+                "multi-byte safe"
+            ],
+            "support": {
+                "issues": "https://github.com/jasvrcek/ICS/issues",
+                "source": "https://github.com/jasvrcek/ICS/tree/0.8.5"
+            },
+            "time": "2023-01-17T22:16:11+00:00"
+        },
+        {
+            "name": "jsvrcek/ics-bundle",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jasvrcek/IcsBundle.git",
+                "reference": "5fd385129d1b9a8cc297625302471bdb9943a2b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jasvrcek/IcsBundle/zipball/5fd385129d1b9a8cc297625302471bdb9943a2b8",
+                "reference": "5fd385129d1b9a8cc297625302471bdb9943a2b8",
+                "shasum": ""
+            },
+            "require": {
+                "jsvrcek/ics": "~0.1",
+                "php": ">=7.4",
+                "symfony/framework-bundle": ">=4.4"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Jsvrcek\\Bundle\\IcsBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Svrcek",
+                    "homepage": "https://github.com/jasvrcek"
+                }
+            ],
+            "description": "This bundle provides a dependency injection wrapper for the JsvrcekICS iCal library",
+            "homepage": "https://github.com/jasvrcek/IcsBundle",
+            "keywords": [
+                ".ics",
+                "RFC 5545",
+                "calendar",
+                "export",
+                "ical"
+            ],
+            "support": {
+                "issues": "https://github.com/jasvrcek/IcsBundle/issues",
+                "source": "https://github.com/jasvrcek/IcsBundle/tree/1.1"
+            },
+            "time": "2022-11-28T17:54:14+00:00"
         },
         {
             "name": "maennchen/zipstream-php",
