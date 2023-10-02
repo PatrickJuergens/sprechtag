@@ -114,10 +114,16 @@ class HomepageController extends AbstractController
             $appointment = $form->getData();
             /** @var Appointment $appointment */
             $appointment->setToken(md5(uniqid(mt_rand(), true)));
-            $entityManager->persist($appointment);
-            $entityManager->flush();
+            try {
+                $entityManager->persist($appointment);
+                $entityManager->flush();
+                return $this->redirectToRoute('app_confirm_appointment', ['token' => $appointment->getToken()], Response::HTTP_SEE_OTHER);
 
-            return $this->redirectToRoute('app_confirm_appointment', ['token' => $appointment->getToken()], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('warning', "Leider wurde die von Ihnen gewählte Zeit gerade ausgewählt! Wählen Sie eine neue Zeit aus!");
+
+                return $this->redirectToRoute('app_homepage', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('frontend/homepage/teacherSelectTimeFrame.html.twig', ['teacher' => $teacher, 'form' => $form]);
