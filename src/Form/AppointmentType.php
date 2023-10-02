@@ -54,7 +54,7 @@ class AppointmentType extends AbstractType
                         ->setParameter('teacher', $teacher);
                 },
                 'label' => 'Wählen Sie die betreffende Schulkasse aus:',
-                'help' => 'Die Angabe der Klasse ist nicht KEIN Pflichtfeld!',
+                'help' => 'Die Angabe der Klasse ist KEIN Pflichtfeld!',
                 'placeholder' => 'Bitte eine Klasse oder einen Kurs auswählen',
                 'required' => false,
             ])
