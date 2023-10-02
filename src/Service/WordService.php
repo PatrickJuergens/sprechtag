@@ -48,7 +48,6 @@ class WordService
             $styleTable = array('borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 80);
             $styleFirstRow = array('borderBottomSize' => 18, 'borderBottomColor' => '000000', 'bgColor' => '000000');
             $styleCell = array('valign' => 'center');
-            $styleCellBTLR = array('valign' => 'center', 'textDirection' => \PhpOffice\PhpWord\Style\Cell::TEXT_DIR_BTLR);
             $fontStyle = array('bold' => true, 'align' => 'center');
             $phpWord->addTableStyle('Fancy Table', $styleTable, $styleFirstRow);
             $table = $section->addTable('Fancy Table');
