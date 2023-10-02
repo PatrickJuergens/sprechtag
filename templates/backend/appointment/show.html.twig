@@ -26,6 +26,18 @@
                         <td>{{ appointment.id }}</td>
                     </tr>
                     <tr>
+                        <th>Zeit</th>
+                        <td>{{ appointment.timeFrame }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lehrkraft</th>
+                        <td>{{ appointment.teacher }}</td>
+                    </tr>
+                    <tr>
+                        <th>Kurs / Klasse</th>
+                        <td>{{ appointment.schoolClass|default('') }}</td>
+                    </tr>
+                    <tr>
                         <th>Vorname Ausbilder/Elternteil</th>
                         <td>{{ appointment.visitorFirstName }}</td>
                     </tr>

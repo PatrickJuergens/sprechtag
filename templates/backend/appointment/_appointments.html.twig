@@ -1,11 +1,11 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Vorname Ausbilder/Elternteil</th>
-        <th>Nachname Ausbilder/Elternteil</th>
-        <th>Vorname Schülerin/Schüler</th>
-        <th>Nachname Schülerin/Schüler</th>
-        <th>E-Mail</th>
+        <th>Zeit</th>
+        <th>Lehrkraft</th>
+        <th>Kurs / Klasse</th>
+        <th>Besucher_in</th>
+        <th>Schüler_in</th>
         <th>Erstellt von</th>
         <th>Bearbeitet von</th>
         <th>Erstellt am</th>
@@ -16,11 +16,11 @@
     <tbody>
     {% for appointment in appointments %}
         <tr>
-            <td>{{ appointment.visitorFirstName }}</td>
-            <td>{{ appointment.visitorLastName }}</td>
-            <td>{{ appointment.studentFirstName }}</td>
-            <td>{{ appointment.studentLastName }}</td>
-            <td>{{ appointment.email }}</td>
+            <td>{{ appointment.timeFrame }}</td>
+            <td>{{ appointment.teacher }}</td>
+            <td>{{ appointment.schoolClass|default('') }}</td>
+            <td>{{ appointment.visitorFirstName }} {{ appointment.visitorLastName }}</td>
+            <td>{{ appointment.studentFirstName }} {{ appointment.studentLastName }}</td>
             <td>{{ appointment.createdBy }}</td>
             <td>{{ appointment.updatedBy }}</td>
             <td>{{ appointment.createdAt ? appointment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
