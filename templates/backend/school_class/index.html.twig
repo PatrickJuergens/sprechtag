@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<title>SchoolClass index</title>
+
+{% block body %}
+    <h1>SchoolClass index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>CreatedBy</th>
+                <th>UpdatedBy</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for school_class in school_classes %}
+            <tr>
+                <td>{{ school_class.id }}</td>
+                <td>{{ school_class.code }}</td>
+                <td>{{ school_class.createdBy }}</td>
+                <td>{{ school_class.updatedBy }}</td>
+                <td>{{ school_class.createdAt ? school_class.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ school_class.updatedAt ? school_class.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_school_class_show', {'id': school_class.id}) }}">show</a>
+                    <a href="{{ path('app_school_class_edit', {'id': school_class.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_school_class_new') }}">Create new</a>
+{% endblock %}

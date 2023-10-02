@@ -20,11 +20,6 @@ class TimeFrame
     #[ORM\Column]
     private ?int $id = null;
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
-
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
@@ -43,5 +38,10 @@ class TimeFrame
         $this->name = $name;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

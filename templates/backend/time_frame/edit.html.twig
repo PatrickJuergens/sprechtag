@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit TimeFrame</title>
+
+{% block body %}
+    <h1>Edit TimeFrame</h1>
+
+    {{ include('backend/time_frame/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_time_frame_index') }}">back to list</a>
+
+    {{ include('backend/time_frame/_delete_form.html.twig') }}
+{% endblock %}

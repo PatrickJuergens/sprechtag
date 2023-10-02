@@ -2,21 +2,26 @@
 
 <div class="menu_section">
     <ul class="nav side-menu">
-        <li><a><i class="fa fa-edit"></i> Lehrer <span class="fa fa-chevron-down"></span></a>
+        <li><a><i class="fa fa-edit"></i> Lehrkräfte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-                <li><a href="{{ path('app_image_index') }}">Übersicht</a></li>
-                <li><a href="{{ path('app_image_index') }}">Neues Modul anlegen</a></li>
+                <li><a href="{{ path('app_teacher_index') }}">Übersicht</a></li>
+                <li><a href="{{ path('app_teacher_new') }}">Neue Lehrkraft anlegen</a></li>
             </ul>
         </li>
         <li><a><i class="fa fa-image"></i> Klassen <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-                <li><a href="{{ path('app_image_index') }}">Übersicht</a></li>
-                <li><a href="{{ path('app_image_new') }}">Neues Bild anlegen</a></li>
+                <li><a href="{{ path('app_school_class_index') }}">Übersicht</a></li>
+                <li><a href="{{ path('app_school_class_new') }}">Neue Klasse anlegen</a></li>
             </ul>
         </li>
         <li><a><i class="fa fa-bar-chart"></i> Zeitfenster <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
-                <li><a href="{{ path('app_image_index') }}">Auswertungen anzeigen</a></li>
+                <li><a href="{{ path('app_time_frame_index') }}"> Übersicht</a></li>
+            </ul>
+        </li>
+        <li><a><i class="fa fa-bar-chart"></i> Termine <span class="fa fa-chevron-down"></span></a>
+            <ul class="nav child_menu">
+                <li><a href="{{ path('app_appointment_index') }}">Übersicht</a></li>
             </ul>
         </li>
     </ul>

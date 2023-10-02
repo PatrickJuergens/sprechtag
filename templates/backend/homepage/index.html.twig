@@ -1,18 +1,34 @@
 {% extends 'backend/base.html.twig' %}
 
 {% block page_title %}
-    <div class="page-title">
-        <div class="title_left">
-            <h3>Ausb <small>Übersicht</small></h3>
-        </div>
-    </div>
+
 {% endblock %}
 
 {% block content %}
+    <div class="tile_count">
+        <div class="col-md-3 col-sm-4  tile_stats_count">
+            <a href="#"><span class="count_top"><i class="fa fa-clock-o"></i> Anzahl Lehrkräfte</span></a>
+            <div class="count">{{ teacherCount }}</div>
+        </div>
+        <div class="col-md-3 col-sm-4  tile_stats_count">
+            <a href="#"><span class="count_top"><i class="fa fa-euro"></i> Anzahl Schulklassen</span></a>
+            <div class="count">{{ schoolClassCount }}</div>
+        </div>
+        <div class="col-md-3 col-sm-4  tile_stats_count">
+            <a href="#"><span class="count_top"><i class="fa fa-euro"></i> Anzahl Termine</span></a>
+            <div class="count">{{ appointmentCount }}</div>
+        </div>
+    </div>
+
+
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel tile">
             <div class="x_content">
-
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Dashboard</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New SchoolClass</title>
+
+{% block body %}
+    <h1>Create new SchoolClass</h1>
+
+    {{ include('backend/school_class/_form.html.twig') }}
+
+    <a href="{{ path('app_school_class_index') }}">back to list</a>
+{% endblock %}

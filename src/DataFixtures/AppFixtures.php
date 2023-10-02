@@ -32,7 +32,7 @@ class AppFixtures extends Fixture
     }
 
     private array $users = [
-        ['email'=> 'admin@patrick-juergens.de', 'roles' => ['ROLE_SUPER_ADMIN'], 'plainPasswort' => 'seeval2023'],
+        ['email'=> 'admin@example.com', 'roles' => ['ROLE_SUPER_ADMIN'], 'plainPasswort' => 'bbs'],
     ];
 
     private function createUsers(ObjectManager $manager): void
@@ -57,7 +57,8 @@ class AppFixtures extends Fixture
     private function createTimeFrame(ObjectManager $manager) :void
     {
         foreach ($this->timeFrames as $timeFrame) {
-            $newTimeFrame = new TimeFrame($timeFrame);
+            $newTimeFrame = new TimeFrame();
+            $newTimeFrame->setName($timeFrame);
             $manager->persist($newTimeFrame);
         }
         $manager->flush();

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<title>TimeFrame index</title>
+
+{% block body %}
+    <h1>TimeFrame index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>CreatedBy</th>
+                <th>UpdatedBy</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for time_frame in time_frames %}
+            <tr>
+                <td>{{ time_frame.id }}</td>
+                <td>{{ time_frame.name }}</td>
+                <td>{{ time_frame.createdBy }}</td>
+                <td>{{ time_frame.updatedBy }}</td>
+                <td>{{ time_frame.createdAt ? time_frame.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ time_frame.updatedAt ? time_frame.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_time_frame_show', {'id': time_frame.id}) }}">show</a>
+                    <a href="{{ path('app_time_frame_edit', {'id': time_frame.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_time_frame_new') }}">Create new</a>
+{% endblock %}

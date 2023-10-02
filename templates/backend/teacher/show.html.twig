@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<title>Teacher</title>
+
+{% block body %}
+    <h1>Teacher</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ teacher.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ teacher.code }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ teacher.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ teacher.lastName }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ teacher.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedBy</th>
+                <td>{{ teacher.updatedBy }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ teacher.createdAt ? teacher.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ teacher.updatedAt ? teacher.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_teacher_index') }}">back to list</a>
+
+    <a href="{{ path('app_teacher_edit', {'id': teacher.id}) }}">edit</a>
+
+    {{ include('backend/backend/teacher/_delete_form.html.twig') }}
+{% endblock %}
