@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\File;
 
-#[Route('/backend/teacher')]
+#[Route('/sprechtagAdmin/teacher')]
 class TeacherController extends AbstractController
 {
     #[Route('/', name: 'app_teacher_index', methods: ['GET'])]

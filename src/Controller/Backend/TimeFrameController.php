@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/backend/time/frame')]
+#[Route('/sprechtagAdmin/time/frame')]
 class TimeFrameController extends AbstractController
 {
     #[Route('/', name: 'app_time_frame_index', methods: ['GET'])]

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-#[Route('/backend')]
+#[Route('/sprechtagAdmin')]
 class HomepageController extends AbstractController
 {
 

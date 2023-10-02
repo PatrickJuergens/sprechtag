@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/backend/school/class')]
+#[Route('/sprechtagAdmin/school/class')]
 class SchoolClassController extends AbstractController
 {
     #[Route('/', name: 'app_school_class_index', methods: ['GET'])]

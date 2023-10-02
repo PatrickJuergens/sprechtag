@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-#[Route('/backend/image')]
+#[Route('/sprechtagAdmin/image')]
 class ImageController extends AbstractController
 {
 
