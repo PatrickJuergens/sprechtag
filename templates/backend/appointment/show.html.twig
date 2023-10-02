@@ -1,46 +1,73 @@
-<!DOCTYPE html>
+{% extends 'backend/base.html.twig' %}
 
-<title>Appointment</title>
+{% block page_title %}
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Termin <small>{{ appointment.id }}</small></h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                <a class="btn btn-secondary" href="{{ path('app_appointment_index') }}">Zurück zur Übersicht</a>
+                <a class="btn btn-secondary"  href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">Bearbeiten</a>
+                {{ include('backend/appointment/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-{% block body %}
-    <h1>Appointment</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ appointment.id }}</td>
-            </tr>
-            <tr>
-                <th>VisitorFirstName</th>
-                <td>{{ appointment.visitorFirstName }}</td>
-            </tr>
-            <tr>
-                <th>VisitorLastName</th>
-                <td>{{ appointment.visitorLastName }}</td>
-            </tr>
-            <tr>
-                <th>StudentFirstName</th>
-                <td>{{ appointment.studentFirstName }}</td>
-            </tr>
-            <tr>
-                <th>StudentLastName</th>
-                <td>{{ appointment.studentLastName }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ appointment.email }}</td>
-            </tr>
-            <tr>
-                <th>Token</th>
-                <td>{{ appointment.token }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_appointment_index') }}">back to list</a>
-
-    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">edit</a>
-
-    {{ include('backend/appointment/_delete_form.html.twig') }}
+{% block content %}
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel tile">
+            <div class="x_content">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <td>{{ appointment.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Vorname Ausbilder/Elternteil</th>
+                        <td>{{ appointment.visitorFirstName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nachname Ausbilder/Elternteil</th>
+                        <td>{{ appointment.visitorLastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>StudentFirstName</th>
+                        <td>{{ appointment.studentFirstName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Vorname Schülerin/Schüler</th>
+                        <td>{{ appointment.studentLastName }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nachname Schülerin/Schüler</th>
+                        <td>{{ appointment.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Token</th>
+                        <td>{{ appointment.token }}</td>
+                    </tr>
+                    <tr>
+                        <th>Erstellt von</th>
+                        <td>{{ appointment.createdBy }}</td>
+                    </tr>
+                    <tr>
+                        <th>Bearbeitet von</th>
+                        <td>{{ appointment.updatedBy }}</td>
+                    </tr>
+                    <tr>
+                        <th>Erstellt am</th>
+                        <td>{{ appointment.createdAt ? appointment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Bearbeitet am</th>
+                        <td>{{ appointment.updatedAt ? appointment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

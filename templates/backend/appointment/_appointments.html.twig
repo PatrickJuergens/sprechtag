@@ -1,0 +1,40 @@
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Vorname Ausbilder/Elternteil</th>
+                    <th>Nachname Ausbilder/Elternteil</th>
+                    <th>Vorname Schülerin/Schüler</th>
+                    <th>Nachname Schülerin/Schüler</th>
+                    <th>E-Mail</th>
+                    <th>Erstellt von</th>
+                    <th>Bearbeitet von</th>
+                    <th>Erstellt am</th>
+                    <th>Bearbeitet am</th>
+                    <th>Aktion</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.visitorFirstName }}</td>
+                        <td>{{ appointment.visitorLastName }}</td>
+                        <td>{{ appointment.studentFirstName }}</td>
+                        <td>{{ appointment.studentLastName }}</td>
+                        <td>{{ appointment.email }}</td>
+                        <td>{{ appointment.createdBy }}</td>
+                        <td>{{ appointment.updatedBy }}</td>
+                        <td>{{ appointment.createdAt ? appointment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ appointment.updatedAt ? appointment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a class="btn btn-secondary" href="{{ path('app_appointment_show', {'id': appointment.id}) }}">anzeigen</a>
+                            <a class="btn btn-secondary" href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">bearbeiten</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">Keine Datensätze gefunden!</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>

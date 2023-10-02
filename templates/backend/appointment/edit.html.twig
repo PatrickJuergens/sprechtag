@@ -1,13 +1,25 @@
-<!DOCTYPE html>
+{% extends 'backend/base.html.twig' %}
 
-<title>Edit Appointment</title>
+{% block page_title %}
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Termin {{ appointment.id }}<small>bearbeiten</small></h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                <a class="btn btn-secondary" href="{{ path('app_appointment_index') }}">Zurück zur Übersicht</a>
+                {{ include('backend/appointment/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-{% block body %}
-    <h1>Edit Appointment</h1>
-
-    {{ include('backend/appointment/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_appointment_index') }}">back to list</a>
-
-    {{ include('backend/appointment/_delete_form.html.twig') }}
+{% block content %}
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel tile">
+            <div class="x_content">
+                {{ include('backend/appointment/_form.html.twig') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

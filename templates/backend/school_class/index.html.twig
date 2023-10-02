@@ -1,43 +1,54 @@
-<!DOCTYPE html>
+{% extends 'backend/base.html.twig' %}
 
-<title>SchoolClass index</title>
+{% block page_title %}
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Klassen <small>Übersicht</small></h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                <a class="btn btn-secondary" href="{{ path('app_school_class_new') }}">Neue Klasse anlegen</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-{% block body %}
-    <h1>SchoolClass index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Code</th>
-                <th>CreatedBy</th>
-                <th>UpdatedBy</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for school_class in school_classes %}
-            <tr>
-                <td>{{ school_class.id }}</td>
-                <td>{{ school_class.code }}</td>
-                <td>{{ school_class.createdBy }}</td>
-                <td>{{ school_class.updatedBy }}</td>
-                <td>{{ school_class.createdAt ? school_class.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ school_class.updatedAt ? school_class.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_school_class_show', {'id': school_class.id}) }}">show</a>
-                    <a href="{{ path('app_school_class_edit', {'id': school_class.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_school_class_new') }}">Create new</a>
+{% block content %}
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel tile">
+            <div class="x_content">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Kürzel</th>
+                        <th>Erstellt von</th>
+                        <th>Bearbeitet von</th>
+                        <th>Erstellt am</th>
+                        <th>Bearbeitet am</th>
+                        <th>Aktionen</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for school_class in school_classes %}
+                        <tr>
+                            <td>{{ school_class.code }}</td>
+                            <td>{{ school_class.createdBy }}</td>
+                            <td>{{ school_class.updatedBy }}</td>
+                            <td>{{ school_class.createdAt ? school_class.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ school_class.updatedAt ? school_class.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <a class="btn btn-secondary" href="{{ path('app_school_class_show', {'id': school_class.id}) }}">anzeigen</a>
+                                <a class="btn btn-secondary" href="{{ path('app_school_class_edit', {'id': school_class.id}) }}">bearbeiten</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="9">Keine Datensätze gefunden!</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

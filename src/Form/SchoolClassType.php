@@ -13,10 +13,6 @@ class SchoolClassType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('createdBy')
-            ->add('updatedBy')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('teachers')
         ;
     }

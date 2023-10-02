@@ -17,7 +17,6 @@ class Appointment1Type extends AbstractType
             ->add('studentFirstName')
             ->add('studentLastName')
             ->add('email')
-            ->add('token')
             ->add('timeFrame')
             ->add('teacher')
             ->add('schoolClass')

@@ -1,45 +1,24 @@
-<!DOCTYPE html>
+{% extends 'backend/base.html.twig' %}
 
-<title>Appointment index</title>
+{% block page_title %}
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Termine <small>Übersicht</small></h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                <a class="btn btn-secondary" href="{{ path('app_appointment_new') }}">Neuen Termin anlegen</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-{% block body %}
-    <h1>Appointment index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>VisitorFirstName</th>
-                <th>VisitorLastName</th>
-                <th>StudentFirstName</th>
-                <th>StudentLastName</th>
-                <th>Email</th>
-                <th>Token</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for appointment in appointments %}
-            <tr>
-                <td>{{ appointment.id }}</td>
-                <td>{{ appointment.visitorFirstName }}</td>
-                <td>{{ appointment.visitorLastName }}</td>
-                <td>{{ appointment.studentFirstName }}</td>
-                <td>{{ appointment.studentLastName }}</td>
-                <td>{{ appointment.email }}</td>
-                <td>{{ appointment.token }}</td>
-                <td>
-                    <a href="{{ path('app_appointment_show', {'id': appointment.id}) }}">show</a>
-                    <a href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_appointment_new') }}">Create new</a>
+{% block content %}
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel tile">
+        <div class="x_content">
+            {% include 'backend/appointment/_appointments.html.twig' with {'appointments': appointments} %}
+        </div>
+    </div>
+</div>
 {% endblock %}

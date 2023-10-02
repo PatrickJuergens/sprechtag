@@ -30,6 +30,7 @@ class AppointmentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $appointment->setToken(md5(uniqid(mt_rand(), true)));
             $entityManager->persist($appointment);
             $entityManager->flush();
 

@@ -15,10 +15,6 @@ class TeacherType extends AbstractType
             ->add('code')
             ->add('firstName')
             ->add('lastName')
-            ->add('createdBy')
-            ->add('updatedBy')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('schoolClasses')
         ;
     }

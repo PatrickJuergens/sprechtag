@@ -13,10 +13,6 @@ class TimeFrameType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('createdBy')
-            ->add('updatedBy')
-            ->add('createdAt')
-            ->add('updatedAt')
         ;
     }
 
