@@ -1,0 +1,38 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block page_title %}
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Lehrkraft <small>importieren</small></h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                <a class="btn btn-secondary" href="{{ path('app_teacher_index') }}">zurück zur Übersicht</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_content">
+                {{ form_start(form) }}
+                {{ form_row(form.excelFile) }}
+                {{ form_row(form.send) }}
+                {{ form_row(form._token) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('.custom-file-input').on('change', function(event) {
+            let inputFile = event.currentTarget;
+            $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+        });
+    </script>
+{% endblock %}
+
+
+

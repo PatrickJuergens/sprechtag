@@ -53,7 +53,10 @@ class AppointmentType extends AbstractType
                         ->orderBy('s.code', 'ASC')
                         ->setParameter('teacher', $teacher);
                 },
-                'label' => 'Wählen Sie die betreffende Schulkasse aus:'
+                'label' => 'Wählen Sie die betreffende Schulkasse aus:',
+                'help' => 'Die Angabe der Klasse ist nicht KEIN Pflichtfeld!',
+                'placeholder' => 'Bitte eine Klasse oder einen Kurs auswählen',
+                'required' => false,
             ])
             ->add('captcha', CaptchaType::class, [
                 'label' => 'Bitte geben Sie den Captcha-Code aus dem Bild ein:'

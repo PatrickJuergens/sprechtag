@@ -1,0 +1,31 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Kürzel</th>
+        <th>Erstellt von</th>
+        <th>Bearbeitet von</th>
+        <th>Erstellt am</th>
+        <th>Bearbeitet am</th>
+        <th>Aktionen</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for school_class in school_classes %}
+        <tr>
+            <td>{{ school_class.code }}</td>
+            <td>{{ school_class.createdBy }}</td>
+            <td>{{ school_class.updatedBy }}</td>
+            <td>{{ school_class.createdAt ? school_class.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ school_class.updatedAt ? school_class.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                <a class="btn btn-secondary" href="{{ path('app_school_class_show', {'id': school_class.id}) }}">anzeigen</a>
+                <a class="btn btn-secondary" href="{{ path('app_school_class_edit', {'id': school_class.id}) }}">bearbeiten</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="9">Keine Datensätze gefunden!</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

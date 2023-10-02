@@ -5,7 +5,9 @@ namespace App\Controller\Backend;
 use App\Entity\Appointment;
 use App\Form\Appointment1Type;
 use App\Repository\AppointmentRepository;
+use App\Service\WordService;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpWord\PhpWord;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +23,19 @@ class AppointmentController extends AbstractController
             'appointments' => $appointmentRepository->findAll(),
         ]);
     }
+
+    #[Route('/export', name: 'app_appointment_export', methods: ['GET'])]
+    public function export(Request $request, WordService $wordService): Response
+    {
+        $path = $wordService->export();
+        $content = file_get_contents($path);
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        $response->headers->set('Content-Disposition', 'attachment;filename="Export.docx"');
+        $response->setContent($content);
+        return $response;
+    }
+
 
     #[Route('/new', name: 'app_appointment_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

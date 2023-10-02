@@ -1,6 +1,8 @@
 {% extends 'frontend/base.html.twig' %}
 
 {% block content %}
+    <p class="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">Terminbuchung</p>
+
     <p>Sie wünschen einen Termin mit <strong>{{ teacher.firstName }} {{ teacher.lastName }}</strong>, bitte wählen Sie einen freien Termin aus.</p>
 
         {% form_theme form 'bootstrap_5_layout.html.twig' %}

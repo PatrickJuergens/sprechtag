@@ -16,55 +16,69 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-12 col-sm-12 ">
-        <div class="x_panel tile">
-            <div class="x_content">
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>ID</th>
-                        <td>{{ teacher.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>Kürzel</th>
-                        <td>{{ teacher.code }}</td>
-                    </tr>
-                    <tr>
-                        <th>Vorname</th>
-                        <td>{{ teacher.firstName }}</td>
-                    </tr>
-                    <tr>
-                        <th>Nachname</th>
-                        <td>{{ teacher.lastName }}</td>
-                    </tr>
-                    <tr>
-                        <th>Erstellt von</th>
-                        <td>{{ teacher.createdBy }}</td>
-                    </tr>
-                    <tr>
-                        <th>Bearbeitet von</th>
-                        <td>{{ teacher.updatedBy }}</td>
-                    </tr>
-                    <tr>
-                        <th>Erstellt am</th>
-                        <td>{{ teacher.createdAt ? teacher.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Bearbeitet am</th>
-                        <td>{{ teacher.updatedAt ? teacher.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 ">
+            <div class="x_panel tile">
+                <div class="x_title"><h3>Lehrkraft</h3></div>
+                <div class="x_content">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ teacher.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kürzel</th>
+                            <td>{{ teacher.code }}</td>
+                        </tr>
+                        <tr>
+                            <th>Vorname</th>
+                            <td>{{ teacher.firstName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nachname</th>
+                            <td>{{ teacher.lastName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Erstellt von</th>
+                            <td>{{ teacher.createdBy }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bearbeitet von</th>
+                            <td>{{ teacher.updatedBy }}</td>
+                        </tr>
+                        <tr>
+                            <th>Erstellt am</th>
+                            <td>{{ teacher.createdAt ? teacher.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bearbeitet am</th>
+                            <td>{{ teacher.updatedAt ? teacher.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-12 col-sm-12 ">
-        <div class="x_panel tile">
-            <div class="x_title"><h3>Termine</h3></div>
-            <div class="x_content">
-                {% include 'backend/appointment/_appointments.html.twig' with {'appointments': teacher.appointments} %}
+
+        <div class="col-md-8 col-sm-8 ">
+            <div class="x_panel tile">
+                <div class="x_title"><h3>Klassen / Kurse</h3></div>
+                <div class="x_content">
+                    {% include 'backend/school_class/_school_classes.html.twig' with {'school_classes': teacher.schoolClasses} %}
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel tile">
+                <div class="x_title"><h3>Termine</h3></div>
+                <div class="x_content">
+                    {% include 'backend/appointment/_appointments.html.twig' with {'appointments': teacher.appointments} %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

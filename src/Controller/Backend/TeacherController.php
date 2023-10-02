@@ -5,11 +5,15 @@ namespace App\Controller\Backend;
 use App\Entity\Teacher;
 use App\Form\TeacherType;
 use App\Repository\TeacherRepository;
+use App\Service\ExcelService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\File;
 
 #[Route('/backend/teacher')]
 class TeacherController extends AbstractController
@@ -38,6 +42,47 @@ class TeacherController extends AbstractController
 
         return $this->render('backend/teacher/new.html.twig', [
             'teacher' => $teacher,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/import', name: 'app_teacher_import', methods: ['GET', 'POST'])]
+    public function import(Request $request, EntityManagerInterface $entityManager, ExcelService $excelService): Response
+    {
+        $defaultData = ['message' => 'Type your message here'];
+        $form = $this->createFormBuilder($defaultData)
+            ->add('excelFile', FileType::class,
+                [
+                    'label' => 'Excel-Datei',
+                    'required' => true,
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '10M',
+                            'mimeTypes' => [
+                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                            ],
+                            'mimeTypesMessage' => 'Bitte laden Sie eine Excel-Datei < 10 MegaByte hoch!',
+                        ])
+                    ],
+                ])
+            ->add('send', SubmitType::class, ['label' => 'Hochladen'])
+            ->getForm();
+        ;
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('excelFile')->getData();
+            try {
+                $excelService->import($file);
+                $this->addFlash('success', 'Excel-Datei wurde importiert');
+            } catch (\Exception $exception) {
+                $this->addFlash('error', 'Excel-Datei konnte nicht importiert werden: '. $exception->getMessage());
+            }
+
+            return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('backend/teacher/import.html.twig', [
             'form' => $form,
         ]);
     }
@@ -78,4 +123,5 @@ class TeacherController extends AbstractController
 
         return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

@@ -1,0 +1,35 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Kürzel</th>
+        <th>Vorname</th>
+        <th>Nachname</th>
+        <th>Erstellt von</th>
+        <th>Bearbeitet von</th>
+        <th>Erstellt am</th>
+        <th>Bearbeitet am</th>
+        <th>Aktionen</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for teacher in teachers %}
+        <tr>
+            <td>{{ teacher.code }}</td>
+            <td>{{ teacher.firstName }}</td>
+            <td>{{ teacher.lastName }}</td>
+            <td>{{ teacher.createdBy }}</td>
+            <td>{{ teacher.updatedBy }}</td>
+            <td>{{ teacher.createdAt ? teacher.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ teacher.updatedAt ? teacher.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                <a class="btn btn-secondary" href="{{ path('app_teacher_show', {'id': teacher.id}) }}">anzeigen</a>
+                <a class="btn btn-secondary" href="{{ path('app_teacher_edit', {'id': teacher.id}) }}">bearbeiten</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="9">Keine Datensätze gefunden!</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

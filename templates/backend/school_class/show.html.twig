@@ -16,37 +16,61 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-12 col-sm-12 ">
-        <div class="x_panel tile">
-            <div class="x_content">
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <th>ID</th>
-                        <td>{{ school_class.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>Kürzel</th>
-                        <td>{{ school_class.code }}</td>
-                    </tr>
-                    <tr>
-                        <th>Erstellt von</th>
-                        <td>{{ school_class.createdBy }}</td>
-                    </tr>
-                    <tr>
-                        <th>Bearbeitet von</th>
-                        <td>{{ school_class.updatedBy }}</td>
-                    </tr>
-                    <tr>
-                        <th>Erstellt am</th>
-                        <td>{{ school_class.createdAt ? school_class.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Bearbeitet am</th>
-                        <td>{{ school_class.updatedAt ? school_class.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel tile">
+                <div class="x_content">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ school_class.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Kürzel</th>
+                            <td>{{ school_class.code }}</td>
+                        </tr>
+                        <tr>
+                            <th>Erstellt von</th>
+                            <td>{{ school_class.createdBy }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bearbeitet von</th>
+                            <td>{{ school_class.updatedBy }}</td>
+                        </tr>
+                        <tr>
+                            <th>Erstellt am</th>
+                            <td>{{ school_class.createdAt ? school_class.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Bearbeitet am</th>
+                            <td>{{ school_class.updatedAt ? school_class.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel tile">
+                <div class="x_title"><h3>Lehrkräfte</h3></div>
+                <div class="x_content">
+                    {% include 'backend/teacher/_teachers.html.twig' with {'teachers': school_class.teachers} %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel tile">
+                <div class="x_title"><h3>Termine</h3></div>
+                <div class="x_content">
+                    {% include 'backend/appointment/_appointments.html.twig' with {'appointments': school_class.appointments} %}
+                </div>
             </div>
         </div>
     </div>
