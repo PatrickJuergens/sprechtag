@@ -2,21 +2,26 @@
 
 namespace App\Service;
 
+use App\Entity\Appointment;
 use App\Repository\TeacherRepository;
+use App\Repository\TimeFrameRepository;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Style\Language;
 use Symfony\Component\Filesystem\Filesystem;
+use Doctrine\Common\Collections\Collection;
 
 class WordService
 {
 
     private TeacherRepository $teacherRepository;
+    private TimeFrameRepository $timeFrameRepository;
 
-    public function __construct(TeacherRepository $teacherRepository)
+    public function __construct(TeacherRepository $teacherRepository, TimeFrameRepository $timeFrameRepository)
     {
         $this->teacherRepository = $teacherRepository;
+        $this->timeFrameRepository = $timeFrameRepository;
     }
 
     /**
@@ -56,12 +61,13 @@ class WordService
             $table->addCell(1600, $styleCell)->addText(htmlspecialchars('Klasse'), $fontStyle);
             $table->addCell(3200, $styleCell)->addText(htmlspecialchars('Schüler_in'), $fontStyle);
             $table->addCell(3200, $styleCell)->addText(htmlspecialchars('Eltern/Ausbilder_in'), $fontStyle);
-            foreach ($teacher->getAppointments() as $appointment) {
+            $appointments = $this->getAppointmentArray($teacher->getAppointments());
+            foreach ($appointments as $time => $appointment) {
                 $table->addRow();
-                $table->addCell(1000)->addText(htmlspecialchars($appointment->getTimeFrame()->getName()));
-                $table->addCell(1600)->addText(htmlspecialchars($appointment->getSchoolClass() != null ? $appointment->getSchoolClass()->getCode() : ''));
-                $table->addCell(3200)->addText(htmlspecialchars($appointment->getStudentFirstName() .' ' .$appointment->getStudentLastName()));
-                $table->addCell(3200)->addText(htmlspecialchars($appointment->getVisitorFirstName() .' ' . $appointment->getVisitorLastName()));
+                $table->addCell(1000)->addText(htmlspecialchars($time));
+                $table->addCell(1600)->addText(htmlspecialchars($appointment && $appointment->getSchoolClass() != null ? $appointment->getSchoolClass()->getCode() : ''));
+                $table->addCell(3200)->addText(htmlspecialchars($appointment ? $appointment->getStudentFirstName() .' ' .$appointment->getStudentLastName() : ''));
+                $table->addCell(3200)->addText(htmlspecialchars($appointment ? $appointment->getVisitorFirstName() .' ' . $appointment->getVisitorLastName() : ''));
             }
 
             $section->addPageBreak();
@@ -75,6 +81,21 @@ class WordService
         $objWriter->save($path, 'Word2007', true);
 
         return $path;
+    }
+
+    protected function getAppointmentArray(Collection $appointments) :array {
+        $return = [];
+
+        foreach ($this->timeFrameRepository->findAll() as $timeFrame) {
+            $return[$timeFrame->getName()] = false;
+        }
+
+        /** @var Appointment $appointment */
+        foreach ($appointments as $appointment) {
+            $return[$appointment->getTimeFrame()->getName()] = $appointment;
+        }
+
+        return $return;
     }
 
 }
