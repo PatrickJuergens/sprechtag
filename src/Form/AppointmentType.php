@@ -59,7 +59,9 @@ class AppointmentType extends AbstractType
                 'required' => false,
             ])
             ->add('captcha', CaptchaType::class, [
-                'label' => 'Bitte geben Sie den Captcha-Code aus dem Bild ein:'
+                'label' => 'Bitte geben Sie den Captcha-Code aus dem Bild ein:',
+                'width' => 240,
+                'height' => 80
             ]);
         ;
     }
