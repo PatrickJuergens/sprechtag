@@ -27,7 +27,7 @@
             <td>{{ appointment.updatedAt ? appointment.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
                 <a class="btn btn-secondary" href="{{ path('app_appointment_show', {'id': appointment.id}) }}">anzeigen</a>
-                {% if not is_granted('ROLE_SUPER_ADMIN') %}
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <a class="btn btn-secondary" href="{{ path('app_appointment_edit', {'id': appointment.id}) }}">bearbeiten</a>
                 {% endif %}
             </td>

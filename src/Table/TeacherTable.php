@@ -42,7 +42,7 @@ class TeacherTable extends HelloBootstrapTable
                 'format' => 'd.m.Y H:i:s'
             ))
             ->add("actions", ActionColumn::class, array(
-                'title' => 'Actions',
+                'title' => 'Aktionen',
                 'width' => 150,
                 'buttons' => array( //see ActionButton for more examples.
                     array(
