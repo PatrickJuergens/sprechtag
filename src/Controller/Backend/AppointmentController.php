@@ -36,14 +36,6 @@ class AppointmentController extends AbstractController
         ));
     }
 
-//    #[Route('/', name: 'app_appointment_index', methods: ['GET'])]
-//    public function index(AppointmentRepository $appointmentRepository): Response
-//    {
-//        return $this->render('backend/appointment/index.html.twig', [
-//            'appointments' => $appointmentRepository->findAll(),
-//        ]);
-//    }
-
     #[Route('/export', name: 'app_appointment_export', methods: ['GET'])]
     #[IsGranted("ROLE_SUPER_ADMIN")]
     public function export(Request $request, WordService $wordService): Response

@@ -1,0 +1,31 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block page_title %}
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Passwort <small>ändern</small></h3>
+        </div>
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                <a class="btn btn-secondary" href="{{ path('app_teacher_index') }}">zurück zur Übersicht</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_content">
+                {{ form_start(form) }}
+                {{ form_row(form.oldPassword) }}
+                {{ form_row(form.password) }}
+                <button type="submit" class="btn btn-primary">Passwort ändern</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
