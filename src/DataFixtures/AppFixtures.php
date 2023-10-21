@@ -27,8 +27,8 @@ class AppFixtures extends Fixture
     {
         $this->createUsers($manager);
         $this->createTimeFrame($manager);
-//        $this->excelService->createClasses($this->classes);
-//        $this->excelService->createTeachers($this->teachers);
+        $this->excelService->createClasses($this->classes);
+        $this->excelService->createTeachers($this->teachers);
     }
 
     private array $classes = ['WIT1A', 'WIT1B', 'WIT1C','WIT2A', 'WIT2B', 'WIT2C','WIT3A', 'WIT3B', 'WIT3C'];
@@ -38,6 +38,7 @@ class AppFixtures extends Fixture
 
     private array $users = [
         ['email'=> 'admin@example.com', 'roles' => ['ROLE_SUPER_ADMIN'], 'plainPasswort' => 'bbs'],
+        ['email'=> 'teacher@example.com', 'roles' => ['ROLE_ADMIN'], 'plainPasswort' => 'bbs'],
     ];
 
     private array $teachers = [

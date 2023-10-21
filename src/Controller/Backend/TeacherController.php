@@ -6,27 +6,39 @@ use App\Entity\Teacher;
 use App\Form\TeacherType;
 use App\Repository\TeacherRepository;
 use App\Service\ExcelService;
+use App\Table\TeacherTable;
 use Doctrine\ORM\EntityManagerInterface;
+use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Constraints\File;
 
 #[Route('/sprechtagAdmin/teacher')]
+#[IsGranted("ROLE_ADMIN")]
 class TeacherController extends AbstractController
 {
     #[Route('/', name: 'app_teacher_index', methods: ['GET'])]
-    public function index(TeacherRepository $teacherRepository): Response
+    public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
     {
-        return $this->render('backend/teacher/index.html.twig', [
-            'teachers' => $teacherRepository->findAll(),
-        ]);
+        $table = $tableFactory->create(TeacherTable::class);
+
+        $table->handleRequest($request);
+        if ($table->isCallback()) {
+            return $table->getResponse();
+        }
+
+        return $this->render('backend/teacher/index.html.twig', array(
+            'table' => $table->createView()
+        ));
     }
 
     #[Route('/new', name: 'app_teacher_new', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $teacher = new Teacher();
@@ -47,6 +59,7 @@ class TeacherController extends AbstractController
     }
 
     #[Route('/import', name: 'app_teacher_import', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function import(Request $request, EntityManagerInterface $entityManager, ExcelService $excelService): Response
     {
         $defaultData = ['message' => 'Type your message here'];
@@ -96,6 +109,7 @@ class TeacherController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_teacher_edit', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function edit(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TeacherType::class, $teacher);
@@ -114,6 +128,7 @@ class TeacherController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_teacher_delete', methods: ['POST'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function delete(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$teacher->getId(), $request->request->get('_token'))) {

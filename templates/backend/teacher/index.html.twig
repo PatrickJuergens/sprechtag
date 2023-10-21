@@ -1,16 +1,26 @@
 {% extends 'backend/base.html.twig' %}
 
+{% block additional_head %}
+    <!-- bootstrap-table CSS with all used extensions -->
+    {{ hello_bootstrap_table_css() }}
+
+    <!-- bootstrap-table JS with all used extensions -->
+    {{ hello_bootstrap_table_js() }}
+{% endblock %}
+
 {% block page_title %}
     <div class="page-title">
         <div class="title_left">
             <h3>Lehrkräfte <small>Übersicht</small></h3>
         </div>
-        <div class="title_right">
-            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
-                <a class="btn btn-secondary" href="{{ path('app_teacher_new') }}">Neue Lehrkraft anlegen</a>
-                <a class="btn btn-secondary" href="{{ path('app_teacher_import') }}">Neue Lehrkräfte samt Klassen importieren</a>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                    <a class="btn btn-secondary" href="{{ path('app_teacher_new') }}">Neue Lehrkraft anlegen</a>
+                    <a class="btn btn-secondary" href="{{ path('app_teacher_import') }}">Neue Lehrkräfte samt Klassen importieren</a>
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
@@ -18,8 +28,9 @@
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel tile">
             <div class="x_content">
-                {% include 'backend/teacher/_teachers.html.twig' with {'teachers': teachers} %}
+                {{ hello_bootstrap_table_render(table) }}
             </div>
         </div>
     </div>
 {% endblock %}
+

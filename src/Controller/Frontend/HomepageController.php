@@ -43,7 +43,8 @@ class HomepageController extends AbstractController
             'placeholder' => 'Nachname der Lehrkraft',
             'width' => '100%',
             'language' => 'de',
-            'help' => 'Geben Sie den ersten Buchstaben des Nachnamens der gesuchten Lehrkraft ein und Sie erhalten passende Vorschläge.'
+            'help' => 'Geben Sie den ersten Buchstaben des Nachnamens der gesuchten Lehrkraft ein und Sie erhalten passende Vorschläge.',
+            'required'=>true
         ])->getForm();
 
         return $this->render('frontend/homepage/index.html.twig', ['form' => $form->createView() ]);

@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\SchoolClass;
+use App\Entity\Teacher;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,7 +15,11 @@ class SchoolClassType extends AbstractType
     {
         $builder
             ->add('code')
-            ->add('teachers')
+            ->add('teachers',EntityType::class, [
+                'class' => Teacher::class,
+                'multiple' => true,
+                'expanded' => true,
+            ])
         ;
     }
 

@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\SchoolClass;
 use App\Entity\Teacher;
+use App\Entity\TimeFrame;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,7 +18,16 @@ class TeacherType extends AbstractType
             ->add('code')
             ->add('firstName')
             ->add('lastName')
-            ->add('schoolClasses')
+            ->add('schoolClasses', EntityType::class, [
+                'class' => SchoolClass::class,
+                'multiple' => true,
+                'expanded' => true,
+            ])
+            ->add('availableTimeFrames', EntityType::class, [
+                'class' => TimeFrame::class,
+                'multiple' => true,
+                'expanded' => true,
+            ])
         ;
     }
 

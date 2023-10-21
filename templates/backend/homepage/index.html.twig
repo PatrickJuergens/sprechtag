@@ -7,15 +7,15 @@
 {% block content %}
     <div class="tile_count">
         <div class="col-md-3 col-sm-4  tile_stats_count">
-            <a href="#"><span class="count_top"><i class="fa fa-user"></i> Anzahl Lehrkräfte</span></a>
+            <a href="{{ path('app_teacher_index') }}"><span class="count_top"><i class="fa fa-user"></i> Anzahl Lehrkräfte</span></a>
             <div class="count">{{ teacherCount }}</div>
         </div>
         <div class="col-md-3 col-sm-4  tile_stats_count">
-            <a href="#"><span class="count_top"><i class="fa fa-group"></i> Anzahl Schulklassen</span></a>
+            <a href="{{ path('app_school_class_index') }}"><span class="count_top"><i class="fa fa-group"></i> Anzahl Schulklassen</span></a>
             <div class="count">{{ schoolClassCount }}</div>
         </div>
         <div class="col-md-3 col-sm-4  tile_stats_count">
-            <a href="#"><span class="count_top"><i class="fa fa-calendar"></i> Anzahl Termine</span></a>
+            <a href="{{ path('app_appointment_index') }}"><span class="count_top"><i class="fa fa-calendar"></i> Anzahl Termine</span></a>
             <div class="count">{{ appointmentCount }}</div>
         </div>
     </div>

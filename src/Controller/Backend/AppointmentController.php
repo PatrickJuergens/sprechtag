@@ -6,25 +6,46 @@ use App\Entity\Appointment;
 use App\Form\Appointment1Type;
 use App\Repository\AppointmentRepository;
 use App\Service\WordService;
+use App\Table\AppointmentTable;
+use App\Table\SchoolClassTable;
 use Doctrine\ORM\EntityManagerInterface;
+use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory;
 use PhpOffice\PhpWord\PhpWord;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/sprechtagAdmin/appointment')]
+#[IsGranted("ROLE_ADMIN")]
 class AppointmentController extends AbstractController
 {
     #[Route('/', name: 'app_appointment_index', methods: ['GET'])]
-    public function index(AppointmentRepository $appointmentRepository): Response
+    public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
     {
-        return $this->render('backend/appointment/index.html.twig', [
-            'appointments' => $appointmentRepository->findAll(),
-        ]);
+        $table = $tableFactory->create(AppointmentTable::class);
+
+        $table->handleRequest($request);
+        if ($table->isCallback()) {
+            return $table->getResponse();
+        }
+
+        return $this->render('backend/appointment/index.html.twig', array(
+            'table' => $table->createView()
+        ));
     }
 
+//    #[Route('/', name: 'app_appointment_index', methods: ['GET'])]
+//    public function index(AppointmentRepository $appointmentRepository): Response
+//    {
+//        return $this->render('backend/appointment/index.html.twig', [
+//            'appointments' => $appointmentRepository->findAll(),
+//        ]);
+//    }
+
     #[Route('/export', name: 'app_appointment_export', methods: ['GET'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function export(Request $request, WordService $wordService): Response
     {
         $path = $wordService->export();
@@ -38,6 +59,7 @@ class AppointmentController extends AbstractController
 
 
     #[Route('/new', name: 'app_appointment_new', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $appointment = new Appointment();
@@ -67,6 +89,7 @@ class AppointmentController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_appointment_edit', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function edit(Request $request, Appointment $appointment, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(Appointment1Type::class, $appointment);
@@ -85,6 +108,7 @@ class AppointmentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_appointment_delete', methods: ['POST'])]
+    #[IsGranted("ROLE_SUPER_ADMIN")]
     public function delete(Request $request, Appointment $appointment, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$appointment->getId(), $request->request->get('_token'))) {

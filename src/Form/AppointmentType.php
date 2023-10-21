@@ -76,7 +76,7 @@ class AppointmentType extends AbstractType
     {
         $return = [];
         $occupiedTimeFrameIds = $teacher->getOccupiedTimeFrameIds();
-        foreach ($this->timeFrameRepository->findAll() as $timeFrame) {
+        foreach ($teacher->getAvailableTimeFrames() as $timeFrame) {
             if (!in_array($timeFrame->getId(), $occupiedTimeFrameIds)) {
                 $return[] = $timeFrame;
             }

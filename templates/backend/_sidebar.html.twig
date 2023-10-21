@@ -5,27 +5,34 @@
         <li><a><i class="fa fa-user"></i> Lehrkräfte <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
                 <li><a href="{{ path('app_teacher_index') }}">Übersicht</a></li>
-                <li><a href="{{ path('app_teacher_new') }}">Neue Lehrkraft anlegen</a></li>
-                <li><a href="{{ path('app_teacher_import') }}">Excel-Import</a></li>
-
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li><a href="{{ path('app_teacher_new') }}">Neue Lehrkraft anlegen</a></li>
+                    <li><a href="{{ path('app_teacher_import') }}">Excel-Import</a></li>
+                {% endif %}
             </ul>
         </li>
         <li><a><i class="fa fa-group"></i> Klassen <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
                 <li><a href="{{ path('app_school_class_index') }}">Übersicht</a></li>
-                <li><a href="{{ path('app_school_class_new') }}">Neue Klasse anlegen</a></li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li><a href="{{ path('app_school_class_new') }}">Neue Klasse anlegen</a></li>
+                {% endif %}
             </ul>
         </li>
-        <li><a><i class="fa fa-clock-o"></i> Zeitfenster <span class="fa fa-chevron-down"></span></a>
-            <ul class="nav child_menu">
-                <li><a href="{{ path('app_time_frame_index') }}"> Übersicht</a></li>
-                <li><a href="{{ path('app_time_frame_new') }}">Neues Zeitfenster anlegen</a></li>
-            </ul>
-        </li>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li><a><i class="fa fa-clock-o"></i> Zeitfenster <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="{{ path('app_time_frame_index') }}"> Übersicht</a></li>
+                    <li><a href="{{ path('app_time_frame_new') }}">Neues Zeitfenster anlegen</a></li>
+                </ul>
+            </li>
+        {% endif %}
         <li><a><i class="fa fa-calendar"></i> Termine <span class="fa fa-chevron-down"></span></a>
             <ul class="nav child_menu">
                 <li><a href="{{ path('app_appointment_index') }}">Übersicht</a></li>
-                <li><a href="{{ path('app_appointment_new') }}">Neuen Termin anlegen</a></li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li><a href="{{ path('app_appointment_new') }}">Neuen Termin anlegen</a></li>
+                {% endif %}
             </ul>
         </li>
     </ul>

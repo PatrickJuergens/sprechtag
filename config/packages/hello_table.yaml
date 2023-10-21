@@ -1,0 +1,3 @@
+hello_bootstrap_table:
+  table_dataset_options:
+    locale: 'de-DE' # see Table Dataset Options

@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
         "gregwar/captcha-bundle": "^2.2",
+        "hello-sebastian/hello-bootstrap-table-bundle": "^0.8.1",
         "jsvrcek/ics-bundle": "^1.1",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^1.29",

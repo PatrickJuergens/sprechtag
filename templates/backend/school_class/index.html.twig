@@ -1,5 +1,13 @@
 {% extends 'backend/base.html.twig' %}
 
+{% block additional_head %}
+    <!-- bootstrap-table CSS with all used extensions -->
+    {{ hello_bootstrap_table_css() }}
+
+    <!-- bootstrap-table JS with all used extensions -->
+    {{ hello_bootstrap_table_js() }}
+{% endblock %}
+
 {% block page_title %}
     <div class="page-title">
         <div class="title_left">
@@ -17,7 +25,7 @@
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel tile">
             <div class="x_content">
-                {% include 'backend/school_class/_school_classes.html.twig' with {'school_classes': school_classes} %}
+                {{ hello_bootstrap_table_render(table) }}
             </div>
         </div>
     </div>

@@ -46,7 +46,7 @@ class Appointment
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 32)]
+    #[ORM\Column(length: 32, unique: true)]
     private ?string $token = null;
 
     public function getId(): ?int

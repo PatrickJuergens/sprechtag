@@ -1,4 +1,14 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.code) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.lastName) }}
+<div class="row">
+<div class="col-md-6 col-sm-6 ">
+    {{ form_row(form.schoolClasses) }}
+</div>
+<div class="col-md-6 col-sm-6 ">
+    {{ form_row(form.availableTimeFrames) }}
+</div>
+</div>
     <button class="btn btn-success">{{ button_label|default('Speichern') }}</button>
 {{ form_end(form) }}

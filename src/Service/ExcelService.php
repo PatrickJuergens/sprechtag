@@ -6,6 +6,7 @@ use App\Entity\SchoolClass;
 use App\Entity\Teacher;
 use App\Repository\SchoolClassRepository;
 use App\Repository\TeacherRepository;
+use App\Repository\TimeFrameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -17,16 +18,19 @@ class ExcelService
     private EntityManagerInterface $entityManager;
     private TeacherRepository $teacherRepository;
     private SchoolClassRepository $schoolClassRepository;
+    private TimeFrameRepository $timeFrameRepository;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 TeacherRepository      $teacherRepository,
-                                SchoolClassRepository  $schoolClassRepository
+                                SchoolClassRepository  $schoolClassRepository,
+                                TimeFrameRepository    $timeFrameRepository
     )
     {
 
         $this->entityManager = $entityManager;
         $this->teacherRepository = $teacherRepository;
         $this->schoolClassRepository = $schoolClassRepository;
+        $this->timeFrameRepository = $timeFrameRepository;
     }
 
     /**
@@ -86,14 +90,19 @@ class ExcelService
 
     public function createTeachers(array $teachersArray): void
     {
+        $timeFrames = $this->timeFrameRepository->findAll();
         foreach ($teachersArray as $code => $teacher) {
             if ($this->teacherRepository->findOneBy(['code'=>$code]) === null) {
                 $newTeacher = new Teacher();
                 $newTeacher->setCode($code);
+                $newTeacher->setToken(md5(uniqid(mt_rand(), true)));
                 $newTeacher->setFirstName($teacher['firstName']);
                 $newTeacher->setLastName($teacher['lastName']);
                 foreach ($teacher['classes'] as $classCode) {
                     $newTeacher->addSchoolClass($this->schoolClassRepository->findOneBy(['code' => $classCode]));
+                }
+                foreach ($timeFrames as $timeFrame) {
+                    $newTeacher->addAvailableTimeFrame($timeFrame);
                 }
                 $this->entityManager->persist($newTeacher);
             }

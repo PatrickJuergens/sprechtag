@@ -1,5 +1,13 @@
 {% extends 'backend/base.html.twig' %}
 
+{% block additional_head %}
+    <!-- bootstrap-table CSS with all used extensions -->
+    {{ hello_bootstrap_table_css() }}
+
+    <!-- bootstrap-table JS with all used extensions -->
+    {{ hello_bootstrap_table_js() }}
+{% endblock %}
+
 {% block page_title %}
     <div class="page-title">
         <div class="title_left">
@@ -17,37 +25,7 @@
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel tile">
             <div class="x_content">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Erstellt von</th>
-                        <th>Bearbeitet von</th>
-                        <th>Erstellt am</th>
-                        <th>Bearbeitet am</th>
-                        <th>Aktionen</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for time_frame in time_frames %}
-                        <tr>
-                            <td>{{ time_frame.name }}</td>
-                            <td>{{ time_frame.createdBy }}</td>
-                            <td>{{ time_frame.updatedBy }}</td>
-                            <td>{{ time_frame.createdAt ? time_frame.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>{{ time_frame.updatedAt ? time_frame.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>
-                                <a class="btn btn-secondary" href="{{ path('app_time_frame_show', {'id': time_frame.id}) }}">anzeigen</a>
-                                <a class="btn btn-secondary" href="{{ path('app_time_frame_edit', {'id': time_frame.id}) }}">bearbeiten</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="9">Keine Datensätze gefunden!</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                {{ hello_bootstrap_table_render(table) }}
             </div>
         </div>
     </div>

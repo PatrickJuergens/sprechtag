@@ -1,16 +1,27 @@
 {% extends 'backend/base.html.twig' %}
 
+{% block additional_head %}
+    <!-- bootstrap-table CSS with all used extensions -->
+    {{ hello_bootstrap_table_css() }}
+
+    <!-- bootstrap-table JS with all used extensions -->
+    {{ hello_bootstrap_table_js() }}
+{% endblock %}
+
+
 {% block page_title %}
     <div class="page-title">
         <div class="title_left">
             <h3>Termine <small>Übersicht</small></h3>
         </div>
+        {% if not is_granted('ROLE_SUPER_ADMIN') %}
         <div class="title_right">
             <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
                 <a class="btn btn-secondary" href="{{ path('app_appointment_new') }}">Neuen Termin anlegen</a>
                 <a class="btn btn-secondary" href="{{ path('app_appointment_export') }}">Word-Datei - Exportieren</a>
             </div>
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 
@@ -18,7 +29,7 @@
 <div class="col-md-12 col-sm-12 ">
     <div class="x_panel tile">
         <div class="x_content">
-            {% include 'backend/appointment/_appointments.html.twig' with {'appointments': appointments} %}
+            {{ hello_bootstrap_table_render(table) }}
         </div>
     </div>
 </div>

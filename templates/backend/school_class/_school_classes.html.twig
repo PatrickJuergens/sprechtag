@@ -19,7 +19,9 @@
             <td>{{ school_class.updatedAt ? school_class.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
                 <a class="btn btn-secondary" href="{{ path('app_school_class_show', {'id': school_class.id}) }}">anzeigen</a>
-                <a class="btn btn-secondary" href="{{ path('app_school_class_edit', {'id': school_class.id}) }}">bearbeiten</a>
+                {% if not is_granted('ROLE_SUPER_ADMIN') %}
+                    <a class="btn btn-secondary" href="{{ path('app_school_class_edit', {'id': school_class.id}) }}">bearbeiten</a>
+                {% endif %}
             </td>
         </tr>
     {% else %}

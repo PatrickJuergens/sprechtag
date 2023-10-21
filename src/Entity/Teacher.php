@@ -32,16 +32,33 @@ class Teacher
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[ORM\Column(length: 32, unique: true)]
+    private ?string $token = null;
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): void
+    {
+        $this->token = $token;
+    }
+
     #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Appointment::class, orphanRemoval: true)]
     private Collection $appointments;
 
     #[ORM\ManyToMany(targetEntity: SchoolClass::class, inversedBy: 'teachers')]
     private Collection $schoolClasses;
 
+    #[ORM\ManyToMany(targetEntity: TimeFrame::class, inversedBy: 'availableTeachers')]
+    private Collection $availableTimeFrames;
+
     public function __construct()
     {
         $this->appointments = new ArrayCollection();
         $this->schoolClasses = new ArrayCollection();
+        $this->availableTimeFrames = new ArrayCollection();
     }
 
 
@@ -152,5 +169,29 @@ class Teacher
             $return[] = $appointment->getTimeFrame()->getId();
         }
         return $return;
+    }
+
+    /**
+     * @return Collection<int, TimeFrame>
+     */
+    public function getAvailableTimeFrames(): Collection
+    {
+        return $this->availableTimeFrames;
+    }
+
+    public function addAvailableTimeFrame(TimeFrame $availableTimeFrame): static
+    {
+        if (!$this->availableTimeFrames->contains($availableTimeFrame)) {
+            $this->availableTimeFrames->add($availableTimeFrame);
+        }
+
+        return $this;
+    }
+
+    public function removeAvailableTimeFrame(TimeFrame $availableTimeFrame): static
+    {
+        $this->availableTimeFrames->removeElement($availableTimeFrame);
+
+        return $this;
     }
 }
