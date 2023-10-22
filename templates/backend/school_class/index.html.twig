@@ -13,11 +13,13 @@
         <div class="title_left">
             <h3>Klassen <small>Übersicht</small></h3>
         </div>
-        <div class="title_right">
-            <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
-                <a class="btn btn-secondary" href="{{ path('app_school_class_new') }}">Neue Klasse anlegen</a>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5 text-right align-bottom form-group pull-right">
+                    <a class="btn btn-secondary" href="{{ path('app_school_class_new') }}">Neue Klasse anlegen</a>
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
