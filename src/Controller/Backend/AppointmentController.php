@@ -4,13 +4,10 @@ namespace App\Controller\Backend;
 
 use App\Entity\Appointment;
 use App\Form\Appointment1Type;
-use App\Repository\AppointmentRepository;
 use App\Service\WordService;
 use App\Table\AppointmentTable;
-use App\Table\SchoolClassTable;
 use Doctrine\ORM\EntityManagerInterface;
 use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory;
-use PhpOffice\PhpWord\PhpWord;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,9 +22,9 @@ class AppointmentController extends AbstractController
     public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
     {
         $table = $tableFactory->create(AppointmentTable::class);
-
         $table->handleRequest($request);
         if ($table->isCallback()) {
+
             return $table->getResponse();
         }
 
@@ -59,11 +56,16 @@ class AppointmentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $appointment->setToken(md5(uniqid(mt_rand(), true)));
-            $entityManager->persist($appointment);
-            $entityManager->flush();
+            try {
+                $appointment->setToken(md5(uniqid(mt_rand(), true)));
+                $entityManager->persist($appointment);
+                $entityManager->flush();
+                $this->addFlash('success', "Der Termin wurde angelegt!");
 
-            return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Der Termin konnte nicht angelegt werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->render('backend/appointment/new.html.twig', [
@@ -88,9 +90,14 @@ class AppointmentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', "Der Termin wurde bearbeitet!");
 
-            return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Der Termin konnte nicht bearbeitet werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->render('backend/appointment/edit.html.twig', [
@@ -104,8 +111,14 @@ class AppointmentController extends AbstractController
     public function delete(Request $request, Appointment $appointment, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$appointment->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($appointment);
-            $entityManager->flush();
+            try {
+                $entityManager->remove($appointment);
+                $entityManager->flush();
+
+                $this->addFlash('success', "Der Termin wurde gelöscht!");
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Der Termin konnte nicht gelöscht werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);

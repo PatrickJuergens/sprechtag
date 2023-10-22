@@ -95,7 +95,7 @@ class ExcelService
             if ($this->teacherRepository->findOneBy(['code'=>$code]) === null) {
                 $newTeacher = new Teacher();
                 $newTeacher->setCode($code);
-                $newTeacher->setToken(md5(uniqid(mt_rand(), true)));
+                $newTeacher->setToken(Teacher::generateToken());
                 $newTeacher->setFirstName($teacher['firstName']);
                 $newTeacher->setLastName($teacher['lastName']);
                 foreach ($teacher['classes'] as $classCode) {

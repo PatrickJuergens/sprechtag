@@ -41,10 +41,15 @@ class TimeFrameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($timeFrame);
-            $entityManager->flush();
+            try {
+                $entityManager->persist($timeFrame);
+                $entityManager->flush();
+                $this->addFlash('success', "Das Zeitfenster wurde angelegt!");
 
-            return $this->redirectToRoute('app_time_frame_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_time_frame_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Das Zeitfenster konnte nicht angelegt werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->render('backend/time_frame/new.html.twig', [
@@ -68,9 +73,14 @@ class TimeFrameController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', "Das Zeitfenster wurde bearbeitet!");
 
-            return $this->redirectToRoute('app_time_frame_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_time_frame_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Das Zeitfenster konnte nicht bearbeitet werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->render('backend/time_frame/edit.html.twig', [
@@ -83,8 +93,13 @@ class TimeFrameController extends AbstractController
     public function delete(Request $request, TimeFrame $timeFrame, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$timeFrame->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($timeFrame);
-            $entityManager->flush();
+            try {
+                $entityManager->remove($timeFrame);
+                $entityManager->flush();
+                $this->addFlash('success', "Das Zeitfenster wurde gelöscht!");
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Das Zeitfenster konnte nicht gelöscht werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->redirectToRoute('app_time_frame_index', [], Response::HTTP_SEE_OTHER);

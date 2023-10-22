@@ -48,7 +48,7 @@ class Teacher
     #[ORM\OneToMany(mappedBy: 'teacher', targetEntity: Appointment::class, orphanRemoval: true)]
     private Collection $appointments;
 
-    #[ORM\ManyToMany(targetEntity: SchoolClass::class, inversedBy: 'teachers')]
+    #[ORM\ManyToMany(targetEntity: SchoolClass::class, inversedBy: 'teachers', cascade: ['persist'])]
     private Collection $schoolClasses;
 
     #[ORM\ManyToMany(targetEntity: TimeFrame::class, inversedBy: 'availableTeachers')]
@@ -193,5 +193,9 @@ class Teacher
         $this->availableTimeFrames->removeElement($availableTimeFrame);
 
         return $this;
+    }
+
+    public static function generateToken() :string {
+        return md5(uniqid(mt_rand(), true));
     }
 }

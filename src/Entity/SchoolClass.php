@@ -27,7 +27,7 @@ class SchoolClass
     #[ORM\OneToMany(mappedBy: 'schoolClass', targetEntity: Appointment::class)]
     private Collection $appointments;
 
-    #[ORM\ManyToMany(targetEntity: Teacher::class, mappedBy: 'schoolClasses')]
+    #[ORM\ManyToMany(targetEntity: Teacher::class, mappedBy: 'schoolClasses', cascade: ['persist'])]
     private Collection $teachers;
 
     public function __construct()

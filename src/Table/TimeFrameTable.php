@@ -24,12 +24,12 @@ class TimeFrameTable extends HelloBootstrapTable
             ->add('name', TextColumn::class, array(
                 'title' => 'Name des Zeitfensters'
             ))
-            ->add('createdBy', TextColumn::class, array(
-                'title' => 'Angelegt von'
-            ))
-            ->add('updatedBy', TextColumn::class, array(
-                'title' => 'Bearbeitet von'
-            ))
+//            ->add('createdBy', TextColumn::class, array(
+//                'title' => 'Angelegt von'
+//            ))
+//            ->add('updatedBy', TextColumn::class, array(
+//                'title' => 'Bearbeitet von'
+//            ))
             ->add('createdAt', DateTimeColumn::class, array(
                 'title' => 'Angelegt am',
                 'format' => 'd.m.Y H:i:s'

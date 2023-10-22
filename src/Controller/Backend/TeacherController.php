@@ -26,9 +26,9 @@ class TeacherController extends AbstractController
     public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
     {
         $table = $tableFactory->create(TeacherTable::class);
-
         $table->handleRequest($request);
         if ($table->isCallback()) {
+
             return $table->getResponse();
         }
 
@@ -46,10 +46,18 @@ class TeacherController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($teacher);
-            $entityManager->flush();
+            try {
+                $teacher->setToken(Teacher::generateToken());
+                $entityManager->persist($teacher);
+                $entityManager->flush();
+                $this->addFlash('success', "Die Lehrkraft wurde angelegt!");
 
-            return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Die Lehrkraft konnte nicht angelegt werde: {$exception->getMessage()}");
+            }
+
+
         }
 
         return $this->render('backend/teacher/new.html.twig', [
@@ -116,9 +124,14 @@ class TeacherController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', "Die Lehrkraft wurde bearbeitet!");
 
-            return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Die Lehrkraft konnte nicht bearbeitet werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->render('backend/teacher/edit.html.twig', [
@@ -132,8 +145,13 @@ class TeacherController extends AbstractController
     public function delete(Request $request, Teacher $teacher, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$teacher->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($teacher);
-            $entityManager->flush();
+            try {
+                $entityManager->remove($teacher);
+                $entityManager->flush();
+                $this->addFlash('success', "Die Lehrkraft wurde gelöscht!");
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Die Lehrkraft konnte nicht gelöscht werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->redirectToRoute('app_teacher_index', [], Response::HTTP_SEE_OTHER);

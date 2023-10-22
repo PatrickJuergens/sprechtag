@@ -80,12 +80,12 @@ class AppointmentTable extends HelloBootstrapTable
             ->add('visitorLastName', TextColumn::class, array(
                 'title' => 'Nachname des Besuchers'
             ))
-            ->add('createdBy', TextColumn::class, array(
-                'title' => 'Angelegt von'
-            ))
-            ->add('updatedBy', TextColumn::class, array(
-                'title' => 'Bearbeitet von'
-            ))
+//            ->add('createdBy', TextColumn::class, array(
+//                'title' => 'Angelegt von'
+//            ))
+//            ->add('updatedBy', TextColumn::class, array(
+//                'title' => 'Bearbeitet von'
+//            ))
             ->add('createdAt', DateTimeColumn::class, array(
                 'title' => 'Angelegt am',
                 'format' => 'd.m.Y H:i:s'
@@ -100,7 +100,7 @@ class AppointmentTable extends HelloBootstrapTable
                 'buttons' => array( //see ActionButton for more examples.
                     array(
                         'displayName' => 'Anzeigen',
-                        'routeName' => 'app_time_frame_show',
+                        'routeName' => 'app_appointment_show',
                         'classNames' => 'btn btn-xs' ,
                         'additionalClassNames' => 'btn-secondary mr-1',
                         'addIf' => function(Appointment $appointment) {
@@ -109,7 +109,7 @@ class AppointmentTable extends HelloBootstrapTable
                     ),
                     array(
                         'displayName' => 'Bearbeiten',
-                        'routeName' => 'app_time_frame_edit',
+                        'routeName' => 'app_appointment_edit',
                         'classNames' => 'btn btn-xs btn-secondary',
                         'addIf' => function(Appointment $appointment) {
                             return $this->security->isGranted('ROLE_SUPER_ADMIN');

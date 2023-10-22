@@ -23,9 +23,9 @@ class SchoolClassController extends AbstractController
     public function index(Request $request, HelloBootstrapTableFactory $tableFactory): Response
     {
         $table = $tableFactory->create(SchoolClassTable::class);
-
         $table->handleRequest($request);
         if ($table->isCallback()) {
+
             return $table->getResponse();
         }
 
@@ -43,10 +43,19 @@ class SchoolClassController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($schoolClass);
-            $entityManager->flush();
+            try {
+                foreach ($schoolClass->getTeachers() as $teacher) {
+                    $teacher->addSchoolClass($schoolClass);
+                    $entityManager->persist($teacher);
+                }
+                $entityManager->persist($schoolClass);
+                $entityManager->flush();
+                $this->addFlash('success', "Die Schulklasse wurde angelegt!");
 
-            return $this->redirectToRoute('app_school_class_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_school_class_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Die Schulklasse konnte nicht angelegt werde: {$exception->getMessage()}");
+            }
         }
 
         return $this->render('backend/school_class/new.html.twig', [
@@ -71,9 +80,14 @@ class SchoolClassController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            try {
+                $entityManager->flush();
+                $this->addFlash('success', "Die Schulklasse wurde bearbeitet!");
 
-            return $this->redirectToRoute('app_school_class_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_school_class_index', [], Response::HTTP_SEE_OTHER);
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Die Schulklasse konnte nicht bearbeitet werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->render('backend/school_class/edit.html.twig', [
@@ -87,8 +101,13 @@ class SchoolClassController extends AbstractController
     public function delete(Request $request, SchoolClass $schoolClass, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$schoolClass->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($schoolClass);
-            $entityManager->flush();
+            try {
+                $entityManager->remove($schoolClass);
+                $entityManager->flush();
+                $this->addFlash('success', "Die Schulklasse wurde gelöscht!");
+            } catch (\Exception $exception) {
+                $this->addFlash('error', "Die Schulklasse konnte nicht gelöscht werden: {$exception->getMessage()}");
+            }
         }
 
         return $this->redirectToRoute('app_school_class_index', [], Response::HTTP_SEE_OTHER);

@@ -70,6 +70,7 @@ class HomepageController extends AbstractController
 
             return $this->redirectToRoute('app_backend', [], Response::HTTP_SEE_OTHER);
         }
+
         return $this->render('backend/changePassword/index.html.twig', ['form' => $form->createView()]);
     }
 

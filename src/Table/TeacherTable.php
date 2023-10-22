@@ -21,17 +21,14 @@ class TeacherTable extends HelloBootstrapTable
 
         $builder
             ->add("id", HiddenColumn::class)
+            ->add('code', TextColumn::class, array(
+                'title' => 'Kürzel'
+            ))
             ->add('firstName', TextColumn::class, array(
                 'title' => 'Vorname'
             ))
             ->add('lastName', TextColumn::class, array(
                 'title' => 'Nachname'
-            ))
-            ->add('createdBy', TextColumn::class, array(
-                'title' => 'Angelegt von'
-            ))
-            ->add('updatedBy', TextColumn::class, array(
-                'title' => 'Bearbeitet von'
             ))
             ->add('createdAt', DateTimeColumn::class, array(
                 'title' => 'Angelegt am',
