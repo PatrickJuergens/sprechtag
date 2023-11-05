@@ -41,7 +41,9 @@ class AppointmentController extends AbstractController
     {
         try {
             return $this->handleExport($wordService, [$teacher]);
+
         } catch (\Exception $exception) {
+
             $this->addFlash('error', "Die Word-Date konnte nicht erstellt werden!");
             return $this->redirectToRoute('app_teacher_show', ['id' => $teacher->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -52,9 +54,11 @@ class AppointmentController extends AbstractController
     public function export(Request $request, WordService $wordService): Response
     {
         try {
+
             return $this->handleExport($wordService);
         } catch (\Exception $exception) {
             $this->addFlash('error', "Die Word-Date konnte nicht erstellt werden!");
+
             return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
         }
     }
@@ -64,12 +68,13 @@ class AppointmentController extends AbstractController
      */
     private function handleExport(WordService $wordService, ?array $teacher = null): Response
     {
-        $path = $wordService->export();
+        $path = $wordService->export($teacher);
         $content = file_get_contents($path);
         $response = new Response();
         $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         $response->headers->set('Content-Disposition', 'attachment;filename="Export.docx"');
         $response->setContent($content);
+
         return $response;
     }
 
