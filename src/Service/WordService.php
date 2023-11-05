@@ -27,12 +27,14 @@ class WordService
     /**
      * @throws Exception
      */
-    public function export() {
+    public function export(?array $teachers = null) {
         $phpWord = new PhpWord();
         $phpWord->getSettings()->setThemeFontLang(new Language(Language::DE_DE));
         $header = array('size' => 16, 'bold' => true);
 
-        $teachers = $this->teacherRepository->findBy([],['lastName' => 'ASC']);
+        if ($teachers === null) {
+            $teachers = $this->teacherRepository->findBy([],['lastName' => 'ASC']);
+        }
         foreach ($teachers as $teacher) {
             if ($teacher->getAppointments()->count() <= 0) {
                 continue;

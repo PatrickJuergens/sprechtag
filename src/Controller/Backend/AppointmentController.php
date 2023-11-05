@@ -3,11 +3,13 @@
 namespace App\Controller\Backend;
 
 use App\Entity\Appointment;
+use App\Entity\Teacher;
 use App\Form\Appointment1Type;
 use App\Service\WordService;
 use App\Table\AppointmentTable;
 use Doctrine\ORM\EntityManagerInterface;
 use HelloSebastian\HelloBootstrapTableBundle\HelloBootstrapTableFactory;
+use PhpOffice\PhpWord\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,9 +35,34 @@ class AppointmentController extends AbstractController
         ));
     }
 
+    #[Route('/exportTeacher/{id}', name: 'app_appointment_export_teacher', methods: ['GET'])]
+    #[IsGranted("ROLE_USER")]
+    public function exportTeacher(Teacher $teacher, WordService $wordService): Response
+    {
+        try {
+            return $this->handleExport($wordService, [$teacher]);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', "Die Word-Date konnte nicht erstellt werden!");
+            return $this->redirectToRoute('app_teacher_show', ['id' => $teacher->getId()], Response::HTTP_SEE_OTHER);
+        }
+    }
+
     #[Route('/export', name: 'app_appointment_export', methods: ['GET'])]
     #[IsGranted("ROLE_SUPER_ADMIN")]
     public function export(Request $request, WordService $wordService): Response
+    {
+        try {
+            return $this->handleExport($wordService);
+        } catch (\Exception $exception) {
+            $this->addFlash('error', "Die Word-Date konnte nicht erstellt werden!");
+            return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function handleExport(WordService $wordService, ?array $teacher = null): Response
     {
         $path = $wordService->export();
         $content = file_get_contents($path);
@@ -123,4 +150,5 @@ class AppointmentController extends AbstractController
 
         return $this->redirectToRoute('app_appointment_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }
